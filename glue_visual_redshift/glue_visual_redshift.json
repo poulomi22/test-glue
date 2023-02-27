@@ -1,0 +1,42 @@
+{
+  "name" : "glue_visual_redshift",
+  "description" : "",
+  "role" : "arn:aws:iam::157315325344:role/awsglue",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-157315325344-us-east-1/scripts/glue_visual_redshift.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-157315325344-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-157315325344-us-east-1/temporary/"
+  },
+  "connections" : {
+    "connections" : [ "demo-study-redshift" ]
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-2\":{\"ApplyMapping\":{\"Inputs\":[\"node-1677532577472\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"end_date\"],\"FromType\":\"date\",\"ToKey\":\"end_date\",\"ToType\":\"date\"},{\"Dropped\":false,\"FromPath\":[\"budget_name\"],\"FromType\":\"string\",\"ToKey\":\"budget_name\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"budget_value\"],\"FromType\":\"decimal\",\"ToKey\":\"budget_value\",\"ToType\":\"decimal\"},{\"Dropped\":false,\"FromPath\":[\"test_col\"],\"FromType\":\"string\",\"ToKey\":\"test_col\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"start_date\"],\"FromType\":\"date\",\"ToKey\":\"start_date\",\"ToType\":\"date\"}],\"Name\":\"ApplyMapping\"}},\"node-3\":{\"S3DirectTarget\":{\"Compression\":\"none\",\"Format\":\"json\",\"Inputs\":[\"node-2\"],\"Name\":\"S3 bucket\",\"PartitionKeys\":[],\"Path\":\"s3://aws-glue-assets-157315325344-us-east-1/out/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1677532577472\":{\"DirectJDBCSource\":{\"ConnectionName\":\"demo-study-redshift\",\"ConnectionType\":\"redshift\",\"Database\":\"dev\",\"Name\":\"Amazon Redshift\",\"RedshiftTmpDir\":\"s3://aws-glue-assets-157315325344-us-east-1/redshift-temp\",\"Table\":\"demo\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "test-glue",
+    "branch" : "develop",
+    "folder" : "glue_visual_redshift"
+  }
+}
